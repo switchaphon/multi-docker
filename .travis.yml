@@ -21,23 +21,11 @@ after_success:
     - docker build -t switchaphon/multi-server ./server
     - docker build -t switchaphon/multi-worker ./worker  
 
-#4 Login to the docker CLI
-echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    #4 Login to the docker CLI
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
-#5 Take those prod. images & push to docker hub
-docker push switchaphon/multi-client
-docker push switchaphon/multi-nginx
-docker push switchaphon/multi-server
-docker push switchaphon/multi-worker
-
-# deploy:
-#     provider: elasticbeanstalk #connect to cloud provider
-#     region: "us-east-1" #from EB's URL
-#     name: docker-react #from EB's dashboard
-#     env: "DockerReact-env" #from EB's dashboard
-#     bucket_name: "elasticbeanstalk-us-east-1-437264012755" #from S3 service (auto create from EB)
-#     bucket_path: "docker-react" #Same as App name
-#     on:
-#         branch: master
-#     access_key_id: "$AWS_ACCESS_KEY"
-#     secret_access_key: "$AWS_SECRET_KEY"
+    #5 Take those prod. images & push to docker hub
+    - docker push switchaphon/multi-client
+    - docker push switchaphon/multi-nginx
+    - docker push switchaphon/multi-server
+    - docker push switchaphon/multi-worker
