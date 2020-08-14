@@ -14,17 +14,18 @@ script:
     - docker run -e CI=true switchaphon/react-test npm test
     #more test for additional image can append to test here
 
-#3 After test success, build prod. images
+#3 After test success
+#3.1 build prouction images
 after_success:
     - docker build -t switchaphon/multi-client ./client 
     - docker build -t switchaphon/multi-nginx ./nginx 
     - docker build -t switchaphon/multi-server ./server
     - docker build -t switchaphon/multi-worker ./worker  
 
-    #4 Login to the docker CLI
+    #3.2 login to Docker hub (via Docker CLI)
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
-    #5 Take those prod. images & push to docker hub
+    #3.3 Push those images to Docker hub
     - docker push switchaphon/multi-client
     - docker push switchaphon/multi-nginx
     - docker push switchaphon/multi-server
