@@ -30,3 +30,18 @@ after_success:
     - docker push switchaphon/multi-nginx
     - docker push switchaphon/multi-server
     - docker push switchaphon/multi-worker
+
+
+#3 DEPLOY Phase
+deploy:
+    edge: true
+    provider: elasticbeanstalk #connect to cloud provider
+    region: "us-east-1" #from EB's URL
+    name: multi-docker #from EB's dashboard
+    env: "MultiDocker-env" #from EB's dashboard
+    bucket_name: "elasticbeanstalk-us-east-1-437264012755" #from S3 service (auto create from EB)
+    bucket_path: docker-multi
+    on:
+        branch: master
+    access_key_id: $AWS_ACCESS_KEY #Environment Variables from Travis-CI 
+    secret_access_key: $AWS_SECRET_KEY #Environment Variables from Travis-CI 
